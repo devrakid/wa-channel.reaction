@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ WhatsApp Channel Reactor | PROGRESS TECH</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #13131a;
+            --border: #1e1e2e;
+            --primary: #25D366;
+            --primary-glow: rgba(37, 211, 102, 0.5);
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.5);
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.5);
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --gradient-1: linear-gradient(135deg, #25D366, #128C7E);
+            --gradient-2: linear-gradient(135deg, #8b5cf6, #6366f1);
+            --gradient-3: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 540px;
+            padding: 20px;
+        }
+
+        /* Glowing orb behind card */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: orbPulse 4s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary-glow);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent-glow);
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 2s;
+        }
+
+        @keyframes orbPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        /* Card */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px 28px;
+            position: relative;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 40px rgba(37, 211, 102, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow:
+                0 0 60px rgba(37, 211, 102, 0.2),
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            animation: bounce 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .title {
+            font-size: 26px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 13px;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--gradient-2);
+            color: white;
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            background: #0d0d14;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        textarea {
+            padding-left: 14px;
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.2), 0 0 0 3px rgba(37, 211, 102, 0.05);
+            background: #0f0f18;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #4a4a5e;
+        }
+
+        /* Emoji quick picker */
+        .emoji-quick {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .emoji-chip {
+            background: #1a1a26;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .emoji-chip:hover {
+            background: #252535;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .emoji-chip.selected {
+            background: rgba(37, 211, 102, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            animation: chipGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes chipGlow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(37, 211, 102, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        /* Submit button */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            background: var(--gradient-1);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn .btn-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Status messages */
+        .status {
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status.loading {
+            display: block;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .status.success {
+            display: block;
+            background: rgba(37, 211, 102, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+
+        .status.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: #4ade80;
+            text-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Counter */
+        .counter {
+            text-align: right;
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .counter.warn {
+            color: #f59e0b;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 1000;
+            animation: slideIn 0.4s ease, slideOut 0.4s ease 3s forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 18px;
+                border-radius: 20px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .emoji-chip {
+                padding: 6px 10px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Floating orbs -->
+    <div class="container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <!-- Main card -->
+        <div class="card">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-icon">⚡</div>
+                <h1 class="title">WhatsApp Channel Reactor</h1>
+                <p class="subtitle">Send Bulk Reactions Instantly</p>
+                <span class="badge">PROGRESS TECH</span>
+            </div>
+
+            <!-- Form -->
+            <form id="reactForm">
+                <div class="form-group">
+                    <label class="label">📎 Channel Post Link</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔗</span>
+                        <input
+                            type="text"
+                            id="postLink"
+                            placeholder="https://whatsapp.com/channel/..."
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">😍 Select Reactions (Max 4)</label>
+                    <div class="emoji-quick" id="emojiPicker">
+                        <span class="emoji-chip" data-emoji="❤️">❤️</span>
+                        <span class="emoji-chip" data-emoji="🔥">🔥</span>
+                        <span class="emoji-chip" data-emoji="😍">😍</span>
+                        <span class="emoji-chip" data-emoji="😭">😭</span>
+                        <span class="emoji-chip" data-emoji="👍">👍</span>
+                        <span class="emoji-chip" data-emoji="😂">😂</span>
+                        <span class="emoji-chip" data-emoji="👏">👏</span>
+                        <span class="emoji-chip" data-emoji="💯">💯</span>
+                        <span class="emoji-chip" data-emoji="😮">😮</span>
+                        <span class="emoji-chip" data-emoji="🎉">🎉</span>
+                        <span class="emoji-chip" data-emoji="💪">💪</span>
+                        <span class="emoji-chip" data-emoji="🥳">🥳</span>
+                    </div>
+                    <input
+                        type="hidden"
+                        id="reactsInput"
+                        value=""
+                    >
+                    <div class="counter" id="emojiCount">0/4 selected</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">✏️ Or Type Custom Emojis</label>
+                    <input
+                        type="text"
+                        id="customEmoji"
+                        placeholder="e.g., ❤️,🔥,😍 (comma separated)"
+                    >
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">
+                    <span class="btn-shine"></span>
+                    🚀 Send Reactions
+                </button>
+            </form>
+
+            <!-- Status -->
+            <div class="status" id="status"></div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Powered by <a href="https://whatsapp.com/channel/0029Vb7Lk3yAzNbrVaWDOk1P" target="_blank">PROGRESS TECH</a> • v2.0
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer"></div>
+
+    <script>
+        // ============================================
+        // WhatsApp Channel Reactor - Frontend Logic
+        // ============================================
+
+        const CONFIG = {
+            userJwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NTZmMzhjOTllNGEzOTVlOWM0ZTc3NSIsImlhdCI6MTc3NzE2NjQ0MiwiZXhwIjoxNzc3NzcxMjQyfQ.V3yZRhC5aVoFX7rwRwjIUGLH9Ly8mz4BsqgRA8ZOcH0',
+            siteKey: '6LemKk8sAAAAAH5PB3f1EspbMlXjtwv5C8tiMHSm',
+            backendUrl: 'https://back.asitha.top/api',
+            recaptchaApi: 'https://omegatech-api.dixonomega.tech/api/tools/recaptcha-v3'
+        };
+
+        // State
+        let selectedEmojis = [];
+
+        // DOM elements
+        const postLinkInput = document.getElementById('postLink');
+        const customEmojiInput = document.getElementById('customEmoji');
+        const reactsInput = document.getElementById('reactsInput');
+        const emojiCount = document.getElementById('emojiCount');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('status');
+        const emojiPicker = document.getElementById('emojiPicker');
+        const toastContainer = document.getElementById('toastContainer');
+
+        // ============================================
+        // Background particles
+        // ============================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#25D366', '#8b5cf6', '#f59e0b', '#6366f1', '#4ade80', '#c084fc'];
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ============================================
+        // Toast notifications
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.classList.add('toast');
+            const bgColors = {
+                success: 'linear-gradient(135deg, #059669, #10b981)',
+                error: 'linear-gradient(135deg, #dc2626, #ef4444)',
+                info: 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+            };
+            toast.style.background = bgColors[type] || bgColors.info;
+            toast.textContent = message;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), 3400);
+        }
+
+        // ============================================
+        // Emoji selection
+        // ============================================
+        emojiPicker.querySelectorAll('.emoji-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const emoji = chip.dataset.emoji;
+                if (chip.classList.contains('selected')) {
+                    chip.classList.remove('selected');
+                    selectedEmojis = selectedEmojis.filter(e => e !== emoji);
+                } else {
+                    if (selectedEmojis.length >= 4) {
+                        showToast('⚠️ Maximum 4 emojis allowed', 'error');
+                        return;
+                    }
+                    chip.classList.add('selected');
+                    selectedEmojis.push(emoji);
+                }
+                updateEmojiState();
+            });
+        });
+
+        customEmojiInput.addEventListener('input', () => {
+            const val = customEmojiInput.value;
+            if (val) {
+                const custom = val.split(',').map(e => e.trim()).filter(Boolean).slice(0, 4);
+                // Clear chip selections
+                emojiPicker.querySelectorAll('.emoji-chip').forEach(c => c.classList.remove('selected'));
+                selectedEmojis = custom;
+            }
+            updateEmojiState();
+        });
+
+        function updateEmojiState() {
+            reactsInput.value = selectedEmojis.join(',');
+            emojiCount.textContent = `${selectedEmojis.length}/4 selected`;
+            emojiCount.classList.toggle('warn', selectedEmojis.length > 4);
+        }
+
+        // ============================================
+        // API functions
+        // ============================================
+        async function getRecaptchaToken() {
+            const url = `${CONFIG.recaptchaApi}?sitekey=${encodeURIComponent(CONFIG.siteKey)}&url=${encodeURIComponent(CONFIG.backendUrl)}&use_enterprise=false`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data?.success || !data?.token) {
+                throw new Error(data?.message || 'Recaptcha bypass failed');
+            }
+            return data.token;
+        }
+
+        async function getTempApiKey(recaptchaToken) {
+            const response = await fetch(`${CONFIG.backendUrl}/user/get-temp-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CONFIG.userJwt}`
+                },
+                body: JSON.stringify({ recaptcha_token: recaptchaToken })
+            });
+            const data = await response.json();
+            if (!data?.token) throw new Error('Temp API key failed');
+            return data.token;
+        }
+
+        async function reactToPost(postLink, reacts, tempKey) {
+            const response = await fetch(`${CONFIG.backendUrl}/channel/react-to-post?apiKey=${encodeURIComponent(tempKey)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CONFIG.userJwt}`
+                },
+                body: JSON.stringify({ post_link: postLink, reacts })
+            });
+            return response.json();
+        }
+
+        // ============================================
+        // Form submission
+        // ============================================
+        document.getElementById('reactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const postLink = postLinkInput.value.trim();
+            const emojis = selectedEmojis.length > 0 ?
+                selectedEmojis :
+                customEmojiInput.value.split(',').map(e => e.trim()).filter(Boolean);
+
+            // Validation
+            if (!postLink) {
+                showToast('❌ Please enter a post link', 'error');
+                return;
+            }
+            if (!postLink.includes('whatsapp.com/channel/')) {
+                showToast('❌ Invalid WhatsApp channel link', 'error');
+                return;
+            }
+            if (emojis.length === 0) {
+                showToast('❌ Please select at least one emoji', 'error');
+                return;
+            }
+            if (emojis.length > 4) {
+                showToast('❌ Maximum 4 emojis allowed', 'error');
+                return;
+            }
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Sending...';
+
+            // Show loading
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '<span class="spinner"></span> Processing your reactions...';
+            statusDiv.style.display = 'block';
+
+            try {
+                const recaptchaToken = await getRecaptchaToken();
+                const tempKey = await getTempApiKey(recaptchaToken);
+                const result = await reactToPost(postLink, emojis.join(','), tempKey);
+
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ Reactions sent successfully!';
+                showToast('🔥 Reactions sent successfully!', 'success');
+
+                // Reset
+                selectedEmojis = [];
+                emojiPicker.querySelectorAll('.emoji-chip').forEach(c => c.classList.remove('selected'));
+                customEmojiInput.value = '';
+                updateEmojiState();
+
+            } catch (error) {
+                console.error('Error:', error);
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Failed: ${error.message}`;
+                showToast(`❌ ${error.message}`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 Send Reactions';
+            }
+        });
+
+        // ============================================
+        // Initial state
+        // ============================================
+        updateEmojiState();
+        console.log('⚡ WhatsApp Channel Reactor Ready');
+        console.log('📡 Connected to backend:', CONFIG.backendUrl);
+        console.log('👤 Author: PROGRESS TECH');
+    </script>
+</body>
+</html>
